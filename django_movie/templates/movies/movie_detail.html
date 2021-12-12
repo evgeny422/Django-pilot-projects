@@ -32,13 +32,17 @@
                     <li style="list-style: none">
                                     <span><b>Режиссер:</b>
                                         {% for director in movie.directors.all %}
-                                            {{ director.name }}
+                                            <a href="{% url 'actor_detail' director.name %}">
+                                                {{ director.name }}
+                                            </a>
                                         {% endfor %}
                                     </span>
                     </li>
                     <li style="list-style: none"><span><b>Актеры:</b>
                         {% for actor in movie.actors.all %}
-                            {{ actor.name }}
+                            <a href="{{ actor.get_absolute_url }}">
+                                {{ actor.name }}
+                            </a>
                         {% endfor %}
                                 </span>
                     </li>
@@ -124,7 +128,7 @@
             <p class="mt-3 italic-blue editContent"
                style="outline: none; cursor: inherit;">
                 <iframe width="560" height="315"
-                        src="https://www.youtube.com/embed/A36LahZNUiE?controls=0"
+                        src="{{movie.trailer}}"
                         frameborder="0" allow="accelerometer; autoplay;
                                                                            encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen>
@@ -178,7 +182,7 @@
                 </div>
                 <!--  //contact form grid ends here -->
             </div>
-
+        </div>
         {% for review in movie.reviews_set.all %}         
             <div class="media py-5">
                 <img src="{% static 'images/te2.jpg' %}" class="mr-3 img-fluid" alt="image">

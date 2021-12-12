@@ -397,7 +397,7 @@ li > a:only-child:after {
     -ms-background-size: cover;
     background-size: cover;
     position: relative;
-    min-height: 60em;
+    min-height: 50em;
 }
 
 .main-banner.inner {
@@ -414,8 +414,16 @@ li > a:only-child:after {
     background-color: rgba(0, 0, 0, 0);
     margin-top: 0;
     background-image: url('../single-post-pic.jpg');
+    
 }
 
+
+.bg2 {
+    background-color: rgba(0, 0, 0, 0);
+    margin-top: 0;
+    background-image: url('https://media.kg-portal.ru/tv/a/arcane/posters/arcane_9.jpg');
+    min-height: 40em;
+}
 /*-- place holder --*/
 
 .banner-form ::-webkit-input-placeholder {
@@ -882,7 +890,7 @@ ul.w3layouts-box-list li {
 }
 
 .desc1-left {
-    border: 1px solid #ddd;
+    border: 0px solid #ddd;
 }
 
 .desc1-right h3 {

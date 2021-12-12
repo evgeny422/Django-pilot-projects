@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import View
 
-from .models import Movie
+from .models import Category, Movie, Actor
 from .forms import ReviewForm
 
 
@@ -11,12 +11,22 @@ class MoviesView(ListView):
     model = Movie
     queryset = Movie.objects.filter(draft=False) #выводим не помеченные как черновик
     #template_name = 'movies/movie_list.html'
+    
+    
+    
 
 
 class MovieDetailView(DetailView):
     """Полное описание фильма"""
     model = Movie
     slug_field = "url"
+    
+    #Модуль для отображения категорий - для предотвращения дублирования кода помещен в 
+    # templatetags
+   # def get_context_data(self, *args, **kwargs):
+    #    context = super().get_context_data(*args, **kwargs) #вызывается метод родителя (ListView)
+     #   context["categories"] = Category.objects.all() #добавляем в словарь значения по ключу
+      #  return context
     
     
     
@@ -39,5 +49,13 @@ class AddReview(View):
             #form.movie_id = pk #присваиваем комментарий по id фильма
             form.save() #добавляем коммент в базу
         return redirect(movie.get_absolute_url())
+    
+    
+    
+class ActorView(DetailView):
+    #Информация об актере
+    model = Actor
+    template_name = 'movies/actor.html'
+    slug_field = "name" 
     
     

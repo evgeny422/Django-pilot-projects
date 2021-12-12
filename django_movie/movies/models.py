@@ -28,6 +28,10 @@ class Actor(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse("actor_detail", kwargs={"slug": self.name})
+    
+    
     class Meta:
         verbose_name = "Актеры и режиссеры"
         verbose_name_plural = "Актеры и режиссеры"
@@ -78,6 +82,8 @@ class Movie(models.Model):
     
     url = models.SlugField(max_length=130, unique=True)
     draft = models.BooleanField("Черновик", default=False)
+    
+    trailer = models.TextField("Трейлер", blank=True)
 
     def __str__(self):
         return self.title

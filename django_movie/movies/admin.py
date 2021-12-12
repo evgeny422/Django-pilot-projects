@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
 from .models import Category, Genre, Movie, MovieShots, Actor, Rating, RatingStar, Reviews
 
 
@@ -28,7 +29,7 @@ class MovieAdmib(admin.ModelAdmin):
             "fields": (("title", "tagline"),)
         }),
         (None, {
-            "fields": ("description", "poster")
+            "fields": ("description", "poster","trailer")
         }),
         (None, {
             "fields": (("year", "world_premiere", "country"),)
@@ -44,9 +45,12 @@ class MovieAdmib(admin.ModelAdmin):
             "fields": (("url", "draft"),)
         }),
     )
+    def get_image(self, obj):
+        return mark_safe(f'<img src={obj.poster.url} width="100" height="110"')
+
     
-    
-    
+
+
 @admin.register(Reviews)    
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ["name", "email", "parent", "movie", "id"]
@@ -62,8 +66,14 @@ class GenreAdmin(admin.ModelAdmin):
 @admin.register(Actor)
 class ActorAdmin(admin.ModelAdmin):
     """Актеры"""
-    list_display = ("name", "age")
+    list_display = ("name", "age", "get_image")
+    readonly_fields = ("get_image", )
+    
+    #Метод, выводящий image в админке
+    def get_image(self,obj):
+        return mark_safe(f'<img src={obj.image.url} width="50", height="60" ')
 
+    get_image.short_description = "Изображение"
 
 @admin.register(Rating)
 class RatingAdmin(admin.ModelAdmin):
@@ -74,7 +84,15 @@ class RatingAdmin(admin.ModelAdmin):
 @admin.register(MovieShots)
 class MovieShotsAdmin(admin.ModelAdmin):
     """Кадры из фильма"""
-    list_display = ("title", "movie")
+    list_display = ("title", "movie","get_image")
+    
+    readonly_fields = ("get_image", )
+    
+    #Метод, выводящий image в админке
+    def get_image(self,obj):
+        return mark_safe(f'<img src={obj.image.url} width="50", height="60" ')
+
+    get_image.short_description = "Изображение"
     
     
 
