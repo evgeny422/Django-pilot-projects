@@ -1,22 +1,32 @@
+from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import View
+from django.db.models import Q
 
-from .models import Category, Movie, Actor
+from .models import Category, Movie, Actor,Genre
 from .forms import ReviewForm
 
 
-class MoviesView(ListView):
+class GenreYear():
+    #Жанры и года выхода фильма
+    
+    def get_genres(self):
+        return Genre.objects.all()
+    
+    def get_years(self):
+        return Movie.objects.order_by('-year').values('year')[:5] # забираем только года
+
+
+class MoviesView(GenreYear,ListView):
     """Список фильмов"""
     model = Movie
     queryset = Movie.objects.filter(draft=False) #выводим не помеченные как черновик
     #template_name = 'movies/movie_list.html'
     
     
-    
 
-
-class MovieDetailView(DetailView):
+class MovieDetailView(GenreYear, DetailView):
     """Полное описание фильма"""
     model = Movie
     slug_field = "url"
@@ -30,8 +40,6 @@ class MovieDetailView(DetailView):
     
     
     
-
-
 class AddReview(View):
     #Класс для отправки отзывов
     def post(self,request, pk):
@@ -52,10 +60,36 @@ class AddReview(View):
     
     
     
-class ActorView(DetailView):
+class ActorView(GenreYear,DetailView):
     #Информация об актере
     model = Actor
     template_name = 'movies/actor.html'
     slug_field = "name" 
     
     
+
+    
+class FilterMoviesView(GenreYear, ListView):
+    #Фильтрация фильмов 
+    def get_queryset(self):
+        #вытаскиваем список из get запроса и фильтруем по нему movie
+        queryset = Movie.objects.filter( 
+             Q(year__in = self.request.GET.getlist("year")) |
+             Q(genres__in = self.request.GET.getlist("genre"))
+             )
+        return queryset
+    
+    
+    
+class Search(ListView):
+    #поиск по названию
+    paginate_by = 3 
+    
+    def get_queryset(self):
+        return Movie.objects.filter( title__icontains= self.request.GET.get("q") )
+                        #__icontains - не учитывает регистр 
+                        
+    def get_context_data(self,*args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["q"] = self.request.GET.get("q")
+        return context

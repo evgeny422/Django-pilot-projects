@@ -5,7 +5,9 @@
         <nav class="py-4">
             <div id="logo">
                 <h1><a href={%url 'home' %} class="editContent"
-                       style="outline: none; outline-offset: -2px; cursor: inherit; color: rgb(255, 255, 255); font-size: 40px; background-color: rgba(0, 0, 0, 0); font-family: Source Sans Pro;, sans-serif;">DjangoMovie</a>
+                       style="outline: none; outline-offset: -2px; cursor: inherit; color: rgb(255, 255, 255); font-size: 40px; background-color: rgba(0, 0, 0, 0); font-family: Source Sans Pro;, sans-serif;">
+                       DjangoMovie все о кино
+                    </a>
                 </h1>
             </div>
 
@@ -27,8 +29,24 @@
                         {%endfor%}
                     </ul>
                 </li>
-                <li><a href="contact.html"
-                       style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">Вход</a>
+                <li>
+                    {% if user.is_authenticated %}
+                    <span class='text-light'>{{user.username}}</span>
+                    <a href="{%url 'account_logout' %}"
+                       style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">
+                       Выход
+                    </a>
+                    {% else %}
+                    <a href="{%url 'account_login' %}"
+                       style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">
+                       Вход
+                    </a>
+
+                    <a href="{%url 'account_signup' %}"
+                       style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">
+                       Регистрация
+                    </a>
+                    {%endif%}
                 </li>
             </ul>
         </nav>
@@ -38,8 +56,8 @@
 <!-- //header -->
 <!--/banner-->
 <div class="banner-info">
-    <p class="editContent">{% block about %} {% endblock about %}</p>
-    <h3 class="mb-4 editContent">Все о кино </h3>
+    <p class="editContent"></p>
+    <h3 class="mb-4 editContent"> </h3>
     <div class="ban-buttons">
 
 
