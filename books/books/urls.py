@@ -8,6 +8,8 @@ from store.views import *
 
 router = SimpleRouter()
 router.register(r'book', BookViewSet)  # http://127.0.0.1:8000/book/?format=json
+router.register(r'book_relation', UserBookRelationView)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
