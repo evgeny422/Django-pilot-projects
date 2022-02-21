@@ -1,7 +1,6 @@
 {% extends 'movies/base.html' %}
 {% load static %}
 {% block title %} {{ actor.name }} {% endblock title %}
-{% block header %} bg2 {% endblock header %}
 {% block container %}
     <div class="container py-md-3">
 {% endblock container %}
@@ -14,7 +13,7 @@
     <div class="left-ads-display col-lg-8">
         <div class="row">
             <div class="desc1-left col-md-6">
-                <img src="{{ actor.image.url }}" class="img-fluid" alt="" style=>
+                <img src="{{ actor.image.url }}" class="img-fluid" alt="">
             </div>
             <div class="desc1-right col-md-6 pl-lg-4">
                 <h3 class="editContent">
@@ -27,18 +26,13 @@
                     <li>
                         <span><b>Режиссер:</b>
                             {% for movie in actor.film_director.all %}
-                            <ul>
-                                <li style="list-style-type:none;"><span>{{ movie.title }}</span></li>   
-                            </ul>
+                                {{ movie.title }}
                             {% endfor %}
                         </span>
                     </li>
                     <li><span><b>Актер:</b>
                         {% for movie in actor.film_actor.all %}
-                        <ul>
-                            <li style="list-style-type:none;"><span>{{ movie.title }}</span></li>   
-                        </ul>
-                            
+                            {{ movie.title }}
                         {% endfor %}
                     </span>
                     </li>
